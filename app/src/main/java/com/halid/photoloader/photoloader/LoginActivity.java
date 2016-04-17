@@ -1,12 +1,13 @@
 package com.halid.photoloader.photoloader;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -35,7 +36,22 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        if (( AccessToken.getCurrentAccessToken()).isExpired()){
+        //check if connection available
+        if (!isNetworkAvailable()){
+             new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(),
+                            "No internet", Toast.LENGTH_LONG)
+                            .show();
+                }
+            };
+            return;
+        }
+
+        //if session expired request new login
+        if (AccessToken.getCurrentAccessToken() == null || ( AccessToken.getCurrentAccessToken()).isExpired()){
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -97,5 +113,13 @@ public class LoginActivity extends AppCompatActivity {
     {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

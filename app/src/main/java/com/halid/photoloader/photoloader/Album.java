@@ -5,6 +5,10 @@ public class Album
     private String _title;
     private long _id;
     private String _cover;
+    private boolean _isSelected;
+
+    public Album (){
+    }
 
     public Album (String title, long id, String coverUrl){
         this._title = title;
@@ -31,5 +35,12 @@ public class Album
     }
     public void setCoverUrl(String coverUrl) {
         this._cover = coverUrl;
+    }
+
+    public boolean getIsSelected() {
+        return _isSelected;
+    }
+    public void setIsSelected(boolean isSelected) {
+        this._isSelected = isSelected;
     }
 }

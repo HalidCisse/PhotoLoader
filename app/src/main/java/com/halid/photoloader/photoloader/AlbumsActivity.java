@@ -52,6 +52,7 @@ public class AlbumsActivity extends AppCompatActivity {
                     public void onCompleted(GraphResponse response) {
                         try {
                             ArrayList<Album> Albums = new ArrayList<>();
+                            Log.d("Token", accessToken.getToken());
                             JSONArray albums = (response.getJSONObject()).getJSONArray("data");
 
                             for (int i = 0; i < albums.length(); i++) {
