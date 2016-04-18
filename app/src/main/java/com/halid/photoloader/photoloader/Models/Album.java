@@ -1,4 +1,4 @@
-package com.halid.photoloader.photoloader;
+package com.halid.photoloader.photoloader.Models;
 
 public class Album
 {

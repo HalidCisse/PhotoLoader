@@ -1,4 +1,4 @@
-package com.halid.photoloader.photoloader;
+package com.halid.photoloader.photoloader.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,15 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.halid.photoloader.photoloader.Models.Album;
+import com.halid.photoloader.photoloader.R;
 
 import java.util.ArrayList;
 
-public class GridAdapter extends BaseAdapter {
+public class AlbumsAdapter extends BaseAdapter {
     private final Context mContext;
     private static LayoutInflater inflater=null;
 
     // Constructor
-    public GridAdapter(Context ctx, ArrayList<Album> albums) {
+    public AlbumsAdapter(Context ctx, ArrayList<Album> albums) {
         mContext = ctx;
         inflater = ( LayoutInflater )ctx.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -26,7 +28,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        System.out.println("getCount " + Albums.size());
+        //System.out.println("getCount " + Albums.size());
         if (Albums == null){
             return 0;
         }
@@ -34,7 +36,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return Albums.get(position);
     }
 
     public long getItemId(int position) {

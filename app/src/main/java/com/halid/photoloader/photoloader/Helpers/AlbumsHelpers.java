@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.halid.photoloader.photoloader.Album;
+import com.halid.photoloader.photoloader.Models.Album;
 
 import org.json.JSONArray;
 import org.json.JSONException;

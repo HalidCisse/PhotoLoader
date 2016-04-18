@@ -1,4 +1,4 @@
-package com.halid.photoloader.photoloader;
+package com.halid.photoloader.photoloader.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.halid.photoloader.photoloader.R;
 
 import java.util.Arrays;
 import java.util.List;

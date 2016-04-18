@@ -1,4 +1,4 @@
-package com.halid.photoloader.photoloader.Helpers;
+package com.halid.photoloader.photoloader.Adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,29 +6,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.halid.photoloader.photoloader.Album;
+import com.halid.photoloader.photoloader.Models.Album;
 import com.halid.photoloader.photoloader.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PhotosAdapter extends BaseAdapter {
     private final Context mContext;
+    private static List<Long> selectList;
     private static LayoutInflater inflater;
 
     // Constructor
-    public PhotosAdapter(Context ctx, ArrayList<Album> photos) {
+    public PhotosAdapter(Context ctx, ArrayList<Album> photos, List<Long> selectList) {
         mContext = ctx;
-        inflater = ( LayoutInflater )ctx.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.selectList = selectList;
+        inflater = ( LayoutInflater )ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         ArrPhotos = photos;
     }
 
     public int getCount() {
-        System.out.println("getCount " + ArrPhotos.size());
+        //System.out.println("getCount " + ArrPhotos.size());
         if (ArrPhotos == null){
             return 0;
         }
@@ -50,15 +53,25 @@ public class PhotosAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.image_item, null);
         }
 
-        //load the album from the array
-        Album photo = ArrPhotos.get(position);
-
-        Log.v("Displaying Photo", String.valueOf(photo.getId()));
+        final Album photo = ArrPhotos.get(position);
 
         //get view references
         ImageView coverView = (ImageView) convertView.findViewById(R.id.grid_item_image);
 
-        Log.d("Photo Cover", photo.getCoverUrl());
+        // if photo checked we need to map it
+        final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.grid_item_checkbox);
+        checkBox.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+                if (checkBox.isChecked() && !selectList.contains(photo.getId()))
+                {
+                    selectList.add(photo.getId());
+                    Log.d("Add photo getView", String.valueOf(photo.getId()));
+                }else{
+                    selectList.remove(photo.getId());
+                    Log.d("Remove photo getView", String.valueOf(photo.getId()));
+                }
+            }
+        });
 
         //Library to help images manipulation see github.com/bumptech/glide
         //Download the cover image and load into the imageView

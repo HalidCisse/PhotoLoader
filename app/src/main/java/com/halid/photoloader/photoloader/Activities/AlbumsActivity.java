@@ -1,4 +1,4 @@
-package com.halid.photoloader.photoloader;
+package com.halid.photoloader.photoloader.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.widget.GridView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.halid.photoloader.photoloader.Adapters.AlbumsAdapter;
+import com.halid.photoloader.photoloader.Models.Album;
+import com.halid.photoloader.photoloader.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +41,7 @@ public class AlbumsActivity extends AppCompatActivity {
 
                 //Pass album index
                 intent.putExtra("albumId", id);
+                intent.putExtra("title", ((Album) gridView.getAdapter().getItem(position)).getTitle());
                 startActivity(intent);
             }
         });
@@ -73,8 +77,7 @@ public class AlbumsActivity extends AppCompatActivity {
                             }
 
                             Log.v("Graph Albums", String.valueOf(Albums.size()));
-                            gridView.setAdapter(new GridAdapter(parent, Albums));
-
+                            gridView.setAdapter(new AlbumsAdapter(parent, Albums));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
