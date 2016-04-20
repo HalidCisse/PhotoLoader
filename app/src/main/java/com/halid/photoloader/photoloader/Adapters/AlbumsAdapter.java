@@ -28,10 +28,6 @@ public class AlbumsAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        //System.out.println("getCount " + Albums.size());
-        if (Albums == null){
-            return 0;
-        }
         return Albums.size();
     }
 
@@ -64,7 +60,6 @@ public class AlbumsAdapter extends BaseAdapter {
          Glide
              .with(mContext)
              .load(bum.getCoverUrl())
-             //.fitCenter()
              .placeholder(R.drawable.com_facebook_button_icon_blue)
              .centerCrop()
              .crossFade()

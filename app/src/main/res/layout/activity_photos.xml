@@ -9,11 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activities.PhotosActivity">
 
-
-
-
-
-
     <GridView
         android:id="@+id/photos_view"
         android:layout_width="fill_parent"
@@ -35,6 +30,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/vs_update_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/view_update_progress"
+        android:layout="@layout/down_progress"
+        android:layout_gravity="bottom"/>
 
     <android.support.design.widget.FloatingActionButton
         xmlns:app="http://schemas.android.com/apk/res-auto"

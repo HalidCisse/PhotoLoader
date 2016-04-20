@@ -17,6 +17,7 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.halid.photoloader.photoloader.Adapters.PhotosAdapter;
+import com.halid.photoloader.photoloader.Helpers.DownloadHelper;
 import com.halid.photoloader.photoloader.Helpers.EndlessScrollListener;
 import com.halid.photoloader.photoloader.Models.Album;
 import com.halid.photoloader.photoloader.R;
@@ -33,6 +34,8 @@ public class PhotosActivity extends AppCompatActivity {
     private GridView gridView;
     private ProgressBar progressBar;
 
+    private FloatingActionButton fab;
+
     private AccessToken token;
     private Long albumId;
 
@@ -41,14 +44,18 @@ public class PhotosActivity extends AppCompatActivity {
     private PhotosAdapter adapter;
     private GraphRequest nextRequest;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
 
         token = AccessToken.getCurrentAccessToken();
+        selectedPhotos.clear();
+
         progressBar = (ProgressBar) findViewById(R.id.viewLoading);
         gridView = (GridView) findViewById(R.id.photos_view);
+        fab = (FloatingActionButton) findViewById(R.id.share_FAB);
 
         // getting albumId passed by the AlbumActivity
         Intent intent = getIntent();
@@ -59,7 +66,6 @@ public class PhotosActivity extends AppCompatActivity {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
-
                 if (nextRequest != null) {
                     Log.d("Loading more", String.valueOf(arrAlbums.size()));
 
@@ -91,35 +97,26 @@ public class PhotosActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.grid_item_checkbox);
                 if (selectedPhotos.contains(id)){
                     selectedPhotos.remove(id);
                     checkBox.setChecked(false);
-
-                    Log.d("Remove photo", String.valueOf(id));
                 }else {
                     selectedPhotos.add(id);
                     checkBox.setChecked(true);
-
-                    Log.d("Add photo", String.valueOf(id));
                 }
-
-                Log.d("Selected Photos", String.valueOf(selectedPhotos.size()));
             }
         });
 
-        // the button to export photos
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.share_FAB);
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Log.d("Exporting photos " , String.valueOf(selectedPhotos.size()));
-                }
-            });
-        }
+        final PhotosActivity context = this;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab.setVisibility(View.GONE);
+                // call the helper and tell him to download our toffs
+              new DownloadHelper(context, selectedPhotos).downlodPhotos();
+            }
+        });
 
         new getAlbumsData().execute();
     }
@@ -193,7 +190,7 @@ public class PhotosActivity extends AppCompatActivity {
         }
     }
 
-    // Get data asynchronously
+    // Get data asynchronously from facebook CDN
     private class getAlbumsData extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {

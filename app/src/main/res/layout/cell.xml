@@ -3,26 +3,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-
-    <!--<Button-->
-        <!--android:id="@+id/grid_item"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Cover Images"-->
-        <!--android:textSize="20sp"-->
-        <!--android:enabled="true"-->
-        <!--android:clickable="true">-->
-    <!--</Button>-->
-
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/coverView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +18,8 @@
         android:text="New Text"
         android:id="@+id/titleView"
         android:layout_below="@+id/coverView"
+        android:paddingBottom="10dp"
         android:gravity="center"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout >
