@@ -9,9 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.halid.photoloader.photoloader.Models.Album;
 import com.halid.photoloader.photoloader.R;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,6 @@ public class PhotosAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        //System.out.println("getCount " + ArrPhotos.size());
-        if (ArrPhotos == null){
-            return 0;
-        }
         return ArrPhotos.size();
     }
 
@@ -73,15 +69,12 @@ public class PhotosAdapter extends BaseAdapter {
             }
         });
 
-        //Library to help images manipulation see github.com/bumptech/glide
+        // Cool Http Library to help images manipulation see https://github.com/koush/ion
         //Download the cover image and load into the imageView
-        Glide
-            .with(mContext)
-            .load(photo.getCoverUrl())
-            .placeholder(R.drawable.com_facebook_button_icon_blue)
-            .centerCrop()
-            .crossFade()
-            .into(coverView);
+        Ion.with(coverView)
+                .placeholder(R.drawable.com_facebook_button_icon_blue)
+                .error(R.drawable.com_facebook_button_icon_blue)
+                .load(photo.getCoverUrl());
 
         return convertView;
     }

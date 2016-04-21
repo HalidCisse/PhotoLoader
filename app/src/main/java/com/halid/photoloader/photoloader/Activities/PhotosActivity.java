@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.halid.photoloader.photoloader.Adapters.PhotosAdapter;
@@ -50,6 +51,7 @@ public class PhotosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
 
+        FacebookSdk.sdkInitialize(this);
         token = AccessToken.getCurrentAccessToken();
         selectedPhotos.clear();
 
@@ -125,6 +127,18 @@ public class PhotosActivity extends AppCompatActivity {
     public void HandleResponse(GraphResponse response) {
         try {
             Log.d("Calling", "HandleResponse");
+
+            if (response == null || response.getJSONObject() == null || !(response.getJSONObject()).has("data")){
+                PhotosActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "No photos found",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+            }
             JSONArray JAAlbums = (response.getJSONObject()).getJSONArray("data");
 
             if (JAAlbums.length() == 0) {
@@ -149,15 +163,14 @@ public class PhotosActivity extends AppCompatActivity {
                         }});
                 }else
                 {
-                    Runnable run = new Runnable() {
+                    PhotosActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
                                     "No more photos",
                                     Toast.LENGTH_SHORT).show();
                         }
-                    };
-                    PhotosActivity.this.runOnUiThread(run);
+                    });
                 }
 
                 ParseAlbums(JAAlbums);

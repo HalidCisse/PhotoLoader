@@ -35,7 +35,6 @@ public class AlbumsActivity extends AppCompatActivity {
         //when album click
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
                 //Send intent to PhotosActivity
                 Intent intent = new Intent(getApplicationContext(), PhotosActivity.class);
 
@@ -55,8 +54,10 @@ public class AlbumsActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(GraphResponse response) {
                         try {
+                            if (response.getJSONObject() == null || !(response.getJSONObject()).has("data")){
+                                return;
+                            }
                             ArrayList<Album> Albums = new ArrayList<>();
-                            Log.d("Token", accessToken.getToken());
                             JSONArray albums = (response.getJSONObject()).getJSONArray("data");
 
                             for (int i = 0; i < albums.length(); i++) {

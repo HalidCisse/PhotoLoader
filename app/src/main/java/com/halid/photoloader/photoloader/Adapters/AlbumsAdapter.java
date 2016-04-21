@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.halid.photoloader.photoloader.Models.Album;
 import com.halid.photoloader.photoloader.R;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
@@ -55,15 +55,12 @@ public class AlbumsAdapter extends BaseAdapter {
 
         titleView.setText(bum.getTitle());
 
-        //Librairy to help manupilating images see github.com/bumptech/glide
-        //download the cover image and load into the imageView
-         Glide
-             .with(mContext)
-             .load(bum.getCoverUrl())
-             .placeholder(R.drawable.com_facebook_button_icon_blue)
-             .centerCrop()
-             .crossFade()
-             .into(coverView);
+        // Cool Http Library to help images manipulation see https://github.com/koush/ion
+        // Download the cover image and load into the imageView
+        Ion.with(coverView)
+                .placeholder(R.drawable.com_facebook_button_icon_blue)
+                .error(R.drawable.com_facebook_button_icon_blue)
+                .load(bum.getCoverUrl());
 
         return convertView;
     }

@@ -1,9 +1,10 @@
 package com.halid.photoloader.photoloader.Helpers;
 
-
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.halid.photoloader.photoloader.Activities.PhotosActivity;
+import com.halid.photoloader.photoloader.Activities.UploadActivity;
 import com.halid.photoloader.photoloader.R;
 import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadRequest;
@@ -58,7 +60,7 @@ public class DownloadHelper {
         downlodPhoto(downloadList.get(0));
     }
 
-    // download one photo
+    // download one photo then trigger the next download
     public void downlodPhoto (final long photoId) {
         Log.d("Download size", String.valueOf(downloadList.size()));
         Log.d("Downloading", String.valueOf(photoId));
@@ -109,6 +111,16 @@ public class DownloadHelper {
 
                                     stubProgress.setProgress(100);
                                     progressText.setText("Download finished");
+
+                                    // 2 sec delay just for fun
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent(context.getApplicationContext(), UploadActivity.class);
+                                            context.startActivity(intent);
+                                        }
+                                    }, 2000);
                                 }
                             }
                         };
@@ -129,6 +141,7 @@ public class DownloadHelper {
 
                     }
                 });
+
         downloadManager.add(downloadRequest);
     }
 
