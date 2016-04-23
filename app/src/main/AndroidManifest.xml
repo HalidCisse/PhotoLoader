@@ -36,7 +36,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".Activities.AlbumsActivity" />
         <activity android:name=".Activities.PhotosActivity" />
-        <activity android:name=".Activities.UploadActivity"></activity>
+        <activity android:name=".Activities.UploadActivity" />
     </application>
 
 </manifest>

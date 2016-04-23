@@ -1,5 +1,6 @@
 package com.halid.photoloader.photoloader.Helpers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.halid.photoloader.photoloader.Activities.PhotosActivity;
 import com.halid.photoloader.photoloader.Activities.UploadActivity;
 import com.halid.photoloader.photoloader.R;
 import com.thin.downloadmanager.DefaultRetryPolicy;
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class DownloadHelper {
 
-    private static PhotosActivity context;
+    private static Activity context;
     private ThinDownloadManager downloadManager;
     private static int totalDownloads;
 
@@ -35,8 +35,8 @@ public class DownloadHelper {
 
     private List<Long> downloadList = new ArrayList<>();
 
-    public DownloadHelper(PhotosActivity context, List<Long> downloads){
-        this.context = context;
+    public DownloadHelper(Activity context, List<Long> downloads){
+        DownloadHelper.context = context;
         downloadList = downloads;
     }
 

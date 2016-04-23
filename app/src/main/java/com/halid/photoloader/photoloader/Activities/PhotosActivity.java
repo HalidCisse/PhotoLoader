@@ -224,7 +224,7 @@ public class PhotosActivity extends AppCompatActivity {
 
             Bundle parameters = new Bundle();
             parameters.putString("fields", "id, picture");
-            parameters.putString("limit", "6");
+            parameters.putInt("limit", 7);
             request.setParameters(parameters);
             request.executeAsync();
 

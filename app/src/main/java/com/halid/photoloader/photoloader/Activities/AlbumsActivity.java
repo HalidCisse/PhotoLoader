@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AlbumsActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class AlbumsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_albums);
+        setTitle("My albums");
 
         gridView = (GridView) findViewById(R.id.gridview);
 
@@ -77,6 +80,12 @@ public class AlbumsActivity extends AppCompatActivity {
                                 Albums.add(album);
                             }
 
+                            // Sorting albums by names
+                            Collections.sort(Albums, new Comparator<Album>() {
+                                public int compare(Album lhs, Album rhs) {
+                                    return lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
+                                }});
+
                             Log.v("Graph Albums", String.valueOf(Albums.size()));
                             gridView.setAdapter(new AlbumsAdapter(parent, Albums));
                         } catch (JSONException e) {
@@ -85,10 +94,10 @@ public class AlbumsActivity extends AppCompatActivity {
                     }
                 });
 
+
         Bundle parameters = new Bundle();
         parameters.putString("fields", "cover_photo, name");
         request.setParameters(parameters);
         request.executeAsync();
     }
-
 }
